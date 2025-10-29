@@ -16,7 +16,12 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
-      <Suspense fallback={<span className="loading loading-dots loading-xl"></span>}>
+      <Suspense
+        fallback={
+          <div className="max-w-[1240px] mx-auto my-10">
+            <span className="loading loading-dots loading-xl w-[70px]"></span>
+          </div>
+        }>
         <AvailablePlayers playerPromise={playerPromise}></AvailablePlayers>
       </Suspense>
 
