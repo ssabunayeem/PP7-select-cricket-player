@@ -2,7 +2,7 @@ import React from 'react';
 import dollarImg from '../../assets/dollar-icon.png';
 import logo from '../../assets/logo.png';
 
-const Navbar = () => {
+const Navbar = ({ availableBalance }) => {
     return (
         <div className='max-w-[1240px] mx-auto my-5'>
 
@@ -54,7 +54,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className='btn btn-outline border-gray-300 rounded-lg'>
-                    <span>60000000</span>
+                    <span>{availableBalance}</span>
                     <span className='mx-0.5'>Coin</span>
                     <img src={dollarImg} alt="" />
                 </div>
