@@ -14,7 +14,8 @@ const playerPromise = playerFetch()
 function App() {
 
   const [toggle, setToggle] = useState(true);
-  const [availableBalance, setAvailableBalance] = useState(1000000)
+  const [availableBalance, setAvailableBalance] = useState(1000000);
+  const [purchasedPlayers, setPurchasedPlayers] = useState([]);
 
   return (
     <>
@@ -47,10 +48,10 @@ function App() {
                 <span className="loading loading-dots loading-xl w-[70px]"></span>
               </div>
             }>
-            <AvailablePlayers availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playerPromise={playerPromise}></AvailablePlayers>
+            <AvailablePlayers purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers} availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playerPromise={playerPromise}></AvailablePlayers>
           </Suspense>
 
-          : <SelectedPlayers></SelectedPlayers>
+          : <SelectedPlayers purchasedPlayers={purchasedPlayers} ></SelectedPlayers>
       }
 
 
