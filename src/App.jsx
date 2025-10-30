@@ -3,6 +3,8 @@ import './App.css'
 import AvailablePlayers from './components/AvailablePlayers/AvailablePlayers'
 import Navbar from './components/Navbar/Navbar'
 import SelectedPlayers from './components/SelectedPlayers/SelectedPlayers'
+import { ToastContainer } from 'react-toastify';
+
 
 const playerFetch = async () => {
   const res = await fetch('./players.json');
@@ -14,15 +16,25 @@ const playerPromise = playerFetch()
 function App() {
 
   const [toggle, setToggle] = useState(true);
-  const [availableBalance, setAvailableBalance] = useState(1000000);
+  const [availableBalance, setAvailableBalance] = useState(9000000);
   const [purchasedPlayers, setPurchasedPlayers] = useState([]);
+
+  const removePlayer = (p) => {
+    console.log(p)
+
+    const updatedPlayer = purchasedPlayers.filter(man => man.player_name !== p.player_name);
+    setPurchasedPlayers(updatedPlayer);
+
+    const playerPrice = Number(p.price.split("USD").join("").split(",").join(""));
+    setAvailableBalance(availableBalance + playerPrice)
+  }
 
   return (
     <>
       <Navbar availableBalance={availableBalance}></Navbar>
 
       <div className=' max-w-[1240px] mx-auto flex justify-between items-center'>
-        <h1 className='font-bold text-2xl'>Available Players</h1>
+        <h1 className='font-bold text-2xl'>{toggle === true ? "Available Players" : `Selected Player(${purchasedPlayers.length}/6)`}</h1>
 
         <div className='font-bold'>
 
@@ -33,7 +45,7 @@ function App() {
 
           <button
             onClick={() => setToggle(false)}
-            className={`border border-gray-300 rounded-r-xl border-l-0 ${toggle === false ? 'bg-amber-300' : ''} py-2 px-8`}>Selected <span>(0)</span>
+            className={`border border-gray-300 rounded-r-xl border-l-0 ${toggle === false ? 'bg-amber-300' : ''} py-2 px-8`}>Selected <span>({purchasedPlayers.length})</span>
           </button>
 
         </div>
@@ -51,13 +63,14 @@ function App() {
             <AvailablePlayers purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers} availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playerPromise={playerPromise}></AvailablePlayers>
           </Suspense>
 
-          : <SelectedPlayers purchasedPlayers={purchasedPlayers} ></SelectedPlayers>
+          : <SelectedPlayers removePlayer={removePlayer} purchasedPlayers={purchasedPlayers} ></SelectedPlayers>
       }
 
 
 
 
 
+      <ToastContainer />
 
     </>
   )
